@@ -1,9 +1,12 @@
 import { ReactNode } from 'react'
-
-import { Slot } from '@radix-ui/react-slot'
 import { Check } from 'phosphor-react'
+import { Slot } from '@radix-ui/react-slot'
 
 export interface CheckBoxRootProps {
+  children: ReactNode
+}
+
+export interface CheckBoxIconProps {
   children: ReactNode
 }
 
@@ -15,10 +18,10 @@ function CheckBoxRoot({ children }: CheckBoxRootProps) {
   )
 }
 
-function CheckBoxIcon() {
+function CheckBoxIcon({ children }: CheckBoxIconProps) {
   return (
     <Slot className=" text-transparent h-6 w-6 peer-checked/input:text-gold-500 ">
-      <Check weight="bold" />
+      {children}
     </Slot>
   )
 }

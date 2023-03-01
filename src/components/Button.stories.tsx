@@ -11,11 +11,6 @@ export default {
       control: {
         type: 'inline-radio'
       }
-    },
-    asChild: {
-      table: {
-        disable: true
-      }
     }
   }
 } as Meta<ButtonProps> // para trazer a intellisense

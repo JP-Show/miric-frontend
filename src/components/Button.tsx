@@ -1,18 +1,14 @@
-import { Slot } from '@radix-ui/react-slot'
 import { clsx } from 'clsx'
 import { ReactNode } from 'react'
 
 export interface ButtonProps {
   children: ReactNode
-  asChild?: boolean
   type: 'normal' | 'delete'
 }
 
-export function Button({ children, asChild, type = 'delete' }: ButtonProps) {
-  const Comp = asChild ? Slot : 'button'
-
+export function Button({ children, type = 'delete' }: ButtonProps) {
   return (
-    <Comp
+    <button
       className={clsx(
         `text-gray-900 outline-none leading-5 font-sans font-normal text-center tracking-widest py-2 px-3 transition-colors rounded focus:ring-2 ring-white`,
         {
@@ -22,6 +18,6 @@ export function Button({ children, asChild, type = 'delete' }: ButtonProps) {
       )}
     >
       {children}
-    </Comp>
+    </button>
   )
 }

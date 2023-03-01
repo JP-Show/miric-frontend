@@ -7,7 +7,7 @@ export function App() {
       <div className=" ring-2 ring-gold-500 outline-2 outline-gold-500 rounded h-64 w-44"></div>
       <img
         className="focus:outline-2 outline-gold-500 rounded h-64 w-44"
-        src={clownpiece}
+        src="https://cdn.discordapp.com/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png"
         alt="d"
       />
     </>
