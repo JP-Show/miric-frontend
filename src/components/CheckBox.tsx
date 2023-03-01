@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-import { Check } from 'phosphor-react'
 import { Slot } from '@radix-ui/react-slot'
 
 export interface CheckBoxRootProps {
