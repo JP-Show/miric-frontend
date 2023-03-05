@@ -1,5 +1,8 @@
 import { ReactNode } from 'react'
 import { Slot } from '@radix-ui/react-slot'
+import { InputHTMLAttributes } from 'react'
+
+interface CheckBoxInputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 export interface CheckBoxRootProps {
   children: ReactNode
@@ -25,9 +28,13 @@ function CheckBoxIcon({ children }: CheckBoxIconProps) {
   )
 }
 
-function CheckBoxInput() {
+function CheckBoxInput({ ...rest }: CheckBoxInputProps) {
   return (
-    <input type="checkbox" className="h-5 w-5 opacity-0 peer/input absolute" />
+    <input
+      {...rest}
+      type="checkbox"
+      className="h-5 w-5 opacity-0 peer/input absolute"
+    />
   )
 }
 

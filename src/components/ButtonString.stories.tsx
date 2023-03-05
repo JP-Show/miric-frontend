@@ -7,12 +7,6 @@ export default {
   component: ButtonString.root,
   args: { children: 'TagButton' },
   argTypes: {
-    radius: {
-      options: ['normal', 'icon'],
-      control: {
-        type: 'radio'
-      }
-    },
     asChild: {
       table: {
         disable: true
@@ -22,21 +16,3 @@ export default {
 } as Meta<ButtonStringRootProps> // para trazer a intellisense
 
 export const Default = {} as StoryObj
-
-export const WithIcon: StoryObj<ButtonStringRootProps> = {
-  argTypes: {
-    children: {
-      table: {
-        disable: true
-      }
-    }
-  },
-
-  args: {
-    children: (
-      <ButtonString.icon>
-        <MagnifyingGlass />
-      </ButtonString.icon>
-    )
-  }
-}

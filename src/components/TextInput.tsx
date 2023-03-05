@@ -2,7 +2,9 @@ import { Slot } from '@radix-ui/react-slot'
 import clsx from 'clsx'
 import { InputHTMLAttributes, ReactNode } from 'react'
 
-interface TextInputInputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface TextInputInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  sizeText?: 'sm' | 'md' | 'lg'
+}
 
 interface TextInputIconProps {
   children: ReactNode
@@ -15,7 +17,7 @@ export interface TextInputRootProps {
 function TextInputRoot({ children }: TextInputRootProps) {
   return (
     <div
-      className={`flex items-center py-2 px-3 gap-3 bg-gray-600 rounded ring-gold-500 focus-within:ring-2 h-12 `} // focus-within é pra ver ser existe algum elemento que está com focus dentro dele
+      className={`flex items-center py-2 px-3 gap-3 bg-gray-600 rounded ring-gold-500 focus-within:ring-2 h-12 w-full `} // focus-within é pra ver ser existe algum elemento que está com focus dentro dele
     >
       {children}
     </div>
@@ -37,12 +39,17 @@ function TextInputIcon({ children, type = 'normal' }: TextInputIconProps) {
 }
 TextInputIcon.displayName = 'TextInput.Icon'
 
-function TextInputInput({ ...rest }: TextInputInputProps) {
+function TextInputInput({ sizeText, ...rest }: TextInputInputProps) {
   return (
     <input
-      className={
-        'bg-transparent flex-1 text-gray-200  placeholder:text-gray-400 outline-none'
-      }
+      className={clsx(
+        'bg-transparent flex-1 text-gray-200  placeholder:text-gray-400 outline-none',
+        {
+          'text-xs': sizeText == 'sm',
+          'text-sm': sizeText == 'md',
+          'text-md': sizeText == 'lg'
+        }
+      )}
       {...rest}
     />
   ) // flex 1 para ocupar o maximo de espaço dentro do objeto
