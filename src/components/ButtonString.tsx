@@ -7,13 +7,19 @@ export interface ButtonStringRootProps {
   children: ReactNode
   asChild?: boolean
   className?: string
+  size?: 'sm' | 'md' | 'lg'
 }
 
 interface ButtonStringIconProps {
   children: ReactNode
 }
 
-function ButtonStringRoot({ children, asChild }: ButtonStringRootProps) {
+function ButtonStringRoot({
+  children,
+  asChild,
+  size = 'md',
+  className
+}: ButtonStringRootProps) {
   const [bgColor, setBgColor] = useState('bg-gray-600')
   const [textColor, setTextColor] = useState('text-gray-200')
 
@@ -27,7 +33,15 @@ function ButtonStringRoot({ children, asChild }: ButtonStringRootProps) {
   return (
     <Comp
       onClick={handleColor}
-      className={`${textColor} flex items-center h-9 outline-none leading-5 font-sans font-normal text-center tracking-widest ${bgColor} py-2 px-3 focus:ring-2 ring-white rounded-lg`}
+      className={clsx(
+        `${textColor} flex items-center h-9 outline-none leading-5 font-sans font-bold text-center tracking-widest ${bgColor} py-2 px-3 focus:ring-2 ring-white rounded-lg`,
+        {
+          'text-xm': size == 'sm',
+          'text-sm': size == 'md',
+          'text-md': size == 'lg'
+        },
+        className
+      )}
     >
       {children}
     </Comp>

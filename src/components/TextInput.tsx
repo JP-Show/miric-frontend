@@ -12,12 +12,13 @@ interface TextInputIconProps {
 }
 export interface TextInputRootProps {
   children: ReactNode
+  className?: string
 }
 
-function TextInputRoot({ children }: TextInputRootProps) {
+function TextInputRoot({ children, className }: TextInputRootProps) {
   return (
     <div
-      className={`flex items-center py-2 px-3 gap-3 bg-gray-600 rounded ring-gold-500 focus-within:ring-2 h-12 w-full `} // focus-within é pra ver ser existe algum elemento que está com focus dentro dele
+      className={`flex items-center py-2 px-3 gap-3 bg-gray-600 rounded ring-gold-500 focus-within:ring-2 h-12 w-full ${className} `} // focus-within é pra ver ser existe algum elemento que está com focus dentro dele
     >
       {children}
     </div>
@@ -29,7 +30,7 @@ function TextInputIcon({ children, type = 'normal' }: TextInputIconProps) {
   return (
     <Slot
       className={clsx({
-        'w-5 h-5 text-gold-500': type === 'plus',
+        'w-5 h-5 text-gold-500 cursor-pointer': type === 'plus',
         'w-8 h-8 text-gray-400': type === 'normal'
       })}
     >
@@ -39,16 +40,17 @@ function TextInputIcon({ children, type = 'normal' }: TextInputIconProps) {
 }
 TextInputIcon.displayName = 'TextInput.Icon'
 
-function TextInputInput({ sizeText, ...rest }: TextInputInputProps) {
+function TextInputInput({ sizeText, className, ...rest }: TextInputInputProps) {
   return (
     <input
       className={clsx(
-        'bg-transparent flex-1 text-gray-200  placeholder:text-gray-400 outline-none',
+        'bg-transparent flex-1 text-gray-200  placeholder:text-gray-400 outline-none lg:text-sm',
         {
           'text-xs': sizeText == 'sm',
           'text-sm': sizeText == 'md',
           'text-md': sizeText == 'lg'
-        }
+        },
+        className
       )}
       {...rest}
     />

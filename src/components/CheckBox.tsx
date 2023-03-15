@@ -14,7 +14,7 @@ export interface CheckBoxIconProps {
 
 function CheckBoxRoot({ children }: CheckBoxRootProps) {
   return (
-    <div className="flex ring-gold-500 justify-center items-center item-center rounded bg-gray-600 h-6 w-6 focus-within:ring-2">
+    <div className="flex ring-gold-500 justify-center items-center item-center rounded bg-gray-600 h-6 w-6 focus-within:ring-2 lg:h-7 lg:w-7">
       {children}
     </div>
   )
@@ -22,7 +22,7 @@ function CheckBoxRoot({ children }: CheckBoxRootProps) {
 
 function CheckBoxIcon({ children }: CheckBoxIconProps) {
   return (
-    <Slot className=" text-transparent h-6 w-6 peer-checked/input:text-gold-500 ">
+    <Slot className=" text-transparent h-6 w-6 peer-checked/input:text-gold-500 lg:h-7 lg:w-7">
       {children}
     </Slot>
   )

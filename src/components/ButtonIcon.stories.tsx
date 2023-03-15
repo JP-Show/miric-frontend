@@ -28,7 +28,7 @@ export const Desktop: StoryObj<ButtonIconRootProps> = {
   args: {
     children: [
       <ButtonIcon.input
-        className="w-40 left-0 mr-3 ml-3 animate-none opacity-100 text-center"
+        className="w-40 mr-4 animate-none opacity-100"
         placeholder="ButtonIcon here"
       />
     ]
@@ -38,7 +38,7 @@ export const config: StoryObj<ButtonIconRootProps> = {
   args: {
     children: [
       <ButtonIcon.icon>
-        <Gear weight="fill" />
+        <Gear weight="fill" className="w-6 h-6" />
       </ButtonIcon.icon>
     ]
   }
