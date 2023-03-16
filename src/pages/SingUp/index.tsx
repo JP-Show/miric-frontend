@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-import { User, usuario } from '../../hooks/userController'
+import { UserController, usuario } from '../../hooks/UserController'
 
 import { Heading } from '../../components/Heading'
 import { Text } from '../../components/Text'
@@ -27,7 +27,7 @@ export function SignUp() {
 
   function handleNewUser() {
     try {
-      const user = new User()
+      const user = new UserController()
       user.create(newUser, passwordAgain)
       navigate('/')
     } catch (error) {

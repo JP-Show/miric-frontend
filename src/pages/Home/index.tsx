@@ -275,7 +275,12 @@ export function Home() {
                 </li>
               ))}
             </ul>
-            <Button className="hidden lg:block w-full h-1/5" types="normal">
+
+            <Button
+              asChild={true}
+              className="hidden lg:flex w-full h-1/5 justify-center items-center"
+              types="normal"
+            >
               <Link to="/newmedia">NEW MEDIA</Link>
             </Button>
           </nav>

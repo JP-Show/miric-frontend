@@ -9,8 +9,8 @@ interface IUserProps {
   create(user: usuario, passwordAgain: string): void
 }
 
-export class User implements IUserProps {
-  async create(user: usuario, passwordAgain: string) {
+export class UserController implements IUserProps {
+  create(user: usuario, passwordAgain: string) {
     if (
       !user.firstName ||
       !user.lastName ||

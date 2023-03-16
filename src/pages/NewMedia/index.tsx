@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +17,38 @@ export function NewMedia() {
   const [tag, useTag] = useState('')
   const [tags, useTags] = useState<string[]>([])
 
+  const [cover, setCover] = useState<FileList | null>()
+  const [cover64, setCover64] = useState<string | ArrayBuffer | null>()
+  const [newCover64, setNewCover64] =
+    useState<CanvasRenderingContext2D | null>()
+
+  function handleConvertImage() {
+    const image = cover![0]
+    const fileReader = new FileReader()
+    fileReader.readAsDataURL(image)
+
+    fileReader.onload = function (e) {
+      const image64 = e.target?.result
+      setCover64(image64)
+      const newImage: HTMLImageElement = document.createElement('img')
+      newImage.src = String(image)
+
+      newImage.onload = function (e) {
+        const canvas: HTMLCanvasElement = document.createElement('canvas')
+        const ratio = 800 / (e.target as HTMLImageElement).width
+        canvas.width = 800
+        canvas.height = (e.target as HTMLImageElement).height * ratio
+
+        const context = canvas.getContext('2d')
+        context?.drawImage(newImage, 0, 0, canvas.width, canvas.height)
+
+        setNewCover64(context)
+      }
+    }
+    console.log(newCover64)
+    console.log(cover64)
+  }
+
   function handleBack() {
     navigate(-1)
   }
@@ -30,12 +62,14 @@ export function NewMedia() {
     console.log(pim)
   }
 
+  useEffect(() => {}, [])
+
   return (
     <div className="bg-gray-900 w-screen h-auto">
       <ButtonIcon.root onClick={handleBack} className="absolute left-3 top-3">
         <ArrowLeft />
       </ButtonIcon.root>
-      <div className="  flex flex-col items-center">
+      <div className="flex flex-col items-center">
         <form className="max-w-sm w-full flex flex-col items-center ml-5 mr-5 mb-8 mt-7">
           <div className="relative mb-16 ">
             <Card asChild={true} />
@@ -49,6 +83,7 @@ export function NewMedia() {
                     id="newImage"
                     type="file"
                     className=" opacity-0 w-0 h-0 "
+                    onChange={e => setCover(e.target.files)}
                   />
                 </span>
               </ButtonIcon.root>
@@ -114,9 +149,16 @@ export function NewMedia() {
               )
             )}
           </div>
-          <Button type="normal">ADD MEDIA</Button>
+          <Button types="normal" onClick={handleConvertImage}>
+            ADD MEDIA
+          </Button>
         </form>
+        <Button types="normal" onClick={handleConvertImage}>
+          ADD MEDIA
+        </Button>
       </div>
+      <img src={String(cover64)} alt="" />
+      <img src="" alt="" />
     </div>
   )
 }

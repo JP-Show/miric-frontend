@@ -5,7 +5,8 @@ import {
   useState,
   useEffect
 } from 'react'
-import { User, usuario } from './userController'
+
+import { UserController, usuario } from './UserController'
 
 interface IAuthProviderProps {
   children: ReactNode
@@ -37,7 +38,10 @@ function AuthProvider({ children }: IAuthProviderProps) {
   }
 
   function handleSignIn(credentials: ISignIn) {
-    const user = new User().login(credentials.email, credentials.password)
+    const user = new UserController().login(
+      credentials.email,
+      credentials.password
+    )
     setData(user)
     localStorage.setItem(`@logged`, JSON.stringify(JSON.stringify(user)))
   }
