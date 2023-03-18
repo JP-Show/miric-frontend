@@ -12,6 +12,7 @@
     "deploy-storybook": "storybook-to-ghpages"
   },
   "dependencies": {
+    "@radix-ui/react-select": "^1.2.1",
     "@radix-ui/react-slot": "^1.0.1",
     "@storybook/addon-a11y": "^6.5.16",
     "clsx": "^1.2.1",

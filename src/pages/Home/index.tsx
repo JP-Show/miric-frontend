@@ -6,11 +6,16 @@ import { ButtonIcon } from '../../components/ButtonIcon'
 import { Card } from '../../components/Card'
 import { Text } from '../../components/Text'
 
+import { MediaController } from '../../hooks/MediaController'
 import { MagnifyingGlass, Gear } from 'phosphor-react'
 import { Link } from 'react-router-dom'
 
 export function Home() {
   const [currentPage, setCurrentPage] = useState(10)
+
+  const obj = new MediaController().show()
+
+  console.log(obj)
 
   const tagObject = [
     {
@@ -63,145 +68,121 @@ export function Home() {
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     },
     {
       id: 2,
 
-      img: 'https://media.discordapp.net/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png',
       name: 'ClownPiece'
     }
   ]
@@ -302,7 +283,6 @@ export function Home() {
                     key={media.id}
                     idCard={media.id}
                     title={media.name}
-                    img={media.img}
                   ></Card>
                 </li>
               ))}

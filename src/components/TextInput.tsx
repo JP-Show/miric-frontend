@@ -11,17 +11,24 @@ interface TextInputIconProps {
   type?: 'normal' | 'plus'
 }
 export interface TextInputRootProps {
-  children: ReactNode
+  children?: ReactNode
   className?: string
+  asChild?: boolean
 }
 
-function TextInputRoot({ children, className }: TextInputRootProps) {
+function TextInputRoot({
+  children,
+  className,
+  asChild = false
+}: TextInputRootProps) {
+  const Comp = asChild ? Slot : 'div'
+
   return (
-    <div
+    <Comp
       className={`flex items-center py-2 px-3 gap-3 bg-gray-600 rounded ring-gold-500 focus-within:ring-2 h-12 w-full ${className} `} // focus-within é pra ver ser existe algum elemento que está com focus dentro dele
     >
       {children}
-    </div>
+    </Comp>
   )
 }
 TextInputRoot.displayName = 'TextInput.Root'

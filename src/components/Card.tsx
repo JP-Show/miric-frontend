@@ -1,4 +1,5 @@
 import { Slot } from '@radix-ui/react-slot'
+import noneCover from '../img/noneCover.png'
 
 export interface CardProps {
   idCard?: number
@@ -15,15 +16,15 @@ export function Card({
   className,
   asChild = false,
   title,
-  img = 'https://cdn.discordapp.com/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png'
+  img
 }: CardProps) {
   const Comp = asChild ? Slot : 'button'
   return (
     <div className="h-auto w-44 text-center">
       <Comp className={`rounded ring-gold-500 outline-none focus:ring-2`}>
         <img
-          className="rounded h-64 w-44 hover:brightness-95"
-          src={img}
+          className="rounded h-64 w-44 object-cover hover:brightness-95"
+          src={img ? img : noneCover}
           alt={alt}
         />
       </Comp>
