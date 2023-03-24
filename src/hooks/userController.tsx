@@ -26,26 +26,39 @@ export class UserController implements IUserProps {
 
     alert('criado com sucesso')
 
-    localStorage.setItem(
-      `@miric:${user.email}`,
-      JSON.stringify(JSON.stringify(user))
-    )
+    localStorage.setItem(`@miric:${user.email}`, JSON.stringify(user))
   }
   login(email: string, password: string) {
     try {
       const user: usuario = JSON.parse(localStorage.getItem(`@miric:${email}`)!)
-
+      console.log(user.email)
+      console.log(email)
       if (!email || !password) {
         throw 'email or password not informed'
       }
 
-      if (email == user.email) {
+      if (email !== user.email) {
         throw 'email or password is incorrectly'
       }
-      if (password == user.password) {
+      if (password !== user.password) {
         throw 'email or password is incorrectly'
       }
       return user
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  update({ firstName, lastName, email, password }: usuario) {
+    try {
+      const obj: usuario = JSON.parse(localStorage.getItem(`@miric:${email}`)!)
+      const objUpdate = {
+        firstName: firstName ? firstName : obj.firstName,
+        lastName: lastName ? lastName : obj.lastName,
+        email,
+        password: password ? password : obj.password
+      }
+      localStorage.setItem(`@miric:${email}`, JSON.stringify(objUpdate))
+      console.log(objUpdate)
     } catch (err) {
       console.error(err)
     }

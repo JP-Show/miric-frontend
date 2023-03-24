@@ -1,10 +1,8 @@
-import { useState } from 'react'
-
 export function compressImage(fileSource: FileList | null) {
-  const [sourceImg, setSourceImg] =
-    useState<string | ArrayBuffer | null | undefined>(null)
-  function handleConvertImage64(file: FileList | null) {
-    file = fileSource
+  let sourceImg: string | ArrayBuffer | null | undefined = 'null'
+  async function handleConvertImage64() {
+    const file = fileSource
+    console.log(file)
     try {
       if (file == null || undefined) {
         throw ''
@@ -16,18 +14,22 @@ export function compressImage(fileSource: FileList | null) {
 
       const fileReader = new FileReader()
       fileReader.readAsDataURL(file![0])
+
       fileReader.onload = e => {
-        setSourceImg(e.target?.result)
+        sourceImg = e.target?.result
       }
     } catch (err) {
       console.log(err)
     }
   }
 
+  handleConvertImage64()
+
   async function handleCompressCover() {
     const HEIGHT = 256
     const newImage = new Image()
     newImage.src = String(sourceImg)
+
     const FinalImg: string = await new Promise(resolve => {
       newImage.onload = event => {
         const canvas: HTMLCanvasElement = document.createElement('canvas')
@@ -43,16 +45,12 @@ export function compressImage(fileSource: FileList | null) {
           90
         )
 
-        // const resizedImg = new Image()
-        // resizedImg.src = newImageURL
-        // console.log(sourceImg)
-        // console.log(newImageURL)
-        // document.getElementById('mm')?.appendChild(resizedImg)
-
         resolve(newImageURL)
       }
     })
+    console.log(FinalImg)
     return FinalImg
   }
+
   return handleCompressCover()
 }

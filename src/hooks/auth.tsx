@@ -18,7 +18,7 @@ interface ISignIn {
 }
 
 interface IAuthContext {
-  user: object | undefined
+  user: usuario | undefined
   signIn: (credentials: ISignIn) => void
   signOut: () => void
 }
@@ -43,7 +43,7 @@ function AuthProvider({ children }: IAuthProviderProps) {
       credentials.password
     )
     setData(user)
-    localStorage.setItem(`@logged`, JSON.stringify(JSON.stringify(user)))
+    localStorage.setItem(`@logged`, JSON.stringify(user ?? ''))
   }
 
   useEffect(() => {
