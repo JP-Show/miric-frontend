@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { MediaController } from '../../hooks/MediaController'
+import { MediaController, IMedia } from '../../hooks/MediaController'
 
 import { Card } from '../../components/Card'
 import { ButtonIcon } from '../../components/ButtonIcon'
@@ -13,18 +13,23 @@ import { Button } from '../../components/Button'
 
 import { Camera, Plus, ArrowLeft, CaretDown } from 'phosphor-react'
 
-export function NewMedia() {
+export function MediaInfo() {
+  const params = useParams()
   const navigate = useNavigate()
+  const obj: Array<IMedia> = JSON.parse(localStorage.getItem('@Media')!)
+
+  const mediaArray = obj.filter(media => media.title == params.id)
+  const media: IMedia = mediaArray[0]
 
   const [tag, useTag] = useState('')
   const [categ, useCateg] = useState<string[]>([])
 
-  const [title, setTitle] = useState<string>()
-  const [desc, setDesc] = useState<string>()
-  const [status, setStatus] = useState<string>('watching')
+  const [desc, setDesc] = useState<string>(media.desc!)
+  const [status, setStatus] = useState<string>(media.status!)
 
-  const [sourceImg, setSourceImg] =
-    useState<string | ArrayBuffer | null | undefined>(null)
+  const [sourceImg, setSourceImg] = useState<
+    string | ArrayBuffer | null | undefined
+  >(media.cover)
 
   function handleConvertImage64(file: FileList | null) {
     try {
@@ -71,20 +76,22 @@ export function NewMedia() {
     return FinalImg
   }
 
-  async function handleMedia() {
-    if (!title) {
-      throw alert('title is required')
-    }
-    const cover = sourceImg
-      ? await handleCompressCover()
-      : 'https://cdn.discordapp.com/attachments/1020756939296227362/1088883294239719534/noneCover.png'
-
-    new MediaController().create({ title, desc, status, categ, cover })
-    navigate('/')
+  async function handleUpdateMedia() {
+    const cover = await handleCompressCover()
+    const title = media.title
+    const newMedias = obj.filter(media => media.title !== params.id)
+    localStorage.setItem('@Media', JSON.stringify(newMedias))
+    new MediaController().update({
+      title,
+      desc,
+      status,
+      categ,
+      cover
+    })
   }
 
   function handleBack() {
-    navigate(-1)
+    navigate('/')
   }
   function handleAddCateg() {
     useCateg(prevState => [...prevState, tag])
@@ -97,7 +104,18 @@ export function NewMedia() {
     console.log(pim)
   }
 
-  useEffect(() => {}, [])
+  function handleRemoveMedia() {
+    new MediaController().delete(params.id!)
+    navigate('/')
+  }
+
+  useEffect(() => {
+    ;(document.getElementById('description') as HTMLInputElement)!.value =
+      media.desc!
+    ;(document.getElementById('status') as HTMLInputElement)!.value =
+      media.status!
+    useCateg(media.categ!)
+  }, [])
 
   return (
     <div className="bg-gray-900 w-screen h-auto">
@@ -107,7 +125,7 @@ export function NewMedia() {
       <div className="flex flex-col items-center">
         <form className="max-w-sm w-full flex flex-col items-center ml-5 mr-5 mb-8 mt-7">
           <div className="relative mb-16 ">
-            <Card asChild={true} img={String(sourceImg ?? '')} />
+            <Card asChild={true} img={String(media.cover ?? '')} />
 
             <label htmlFor="newImage" className="absolute -right-7 -bottom-5">
               <ButtonIcon.root asChild={true} className="w-14 h-14">
@@ -133,7 +151,8 @@ export function NewMedia() {
                 placeholder="Title"
                 id="title"
                 type="text"
-                onChange={e => setTitle(e.target.value)}
+                readOnly
+                defaultValue={media.title}
               />
             </TextInput.root>
           </label>
@@ -155,8 +174,11 @@ export function NewMedia() {
 
             <TextInput.root asChild={true} className="bg-gradient-to-tl">
               <select
+                id="status"
                 className="text-gray-200 appearance-none outline-none"
-                onChange={e => setStatus(e.target.value)}
+                onChange={e =>
+                  setStatus(e.target.value ? e.target.value : media.status!)
+                }
               >
                 <option value="watching">Watching/reading</option>
                 <option value="planToWatch">Plan to watch/read</option>
@@ -166,7 +188,7 @@ export function NewMedia() {
             </TextInput.root>
           </label>
           <label htmlFor="tags" className="w-11/12 flex flex-col mb-3">
-            <Text className="mb-2 ml-3">Title</Text>
+            <Text className="mb-2 ml-3">Categories</Text>
 
             <TextInput.root>
               <TextInput.input
@@ -194,11 +216,17 @@ export function NewMedia() {
               )
             )}
           </div>
-          <Button types="normal" type="button" onClick={handleMedia}>
-            ADD MEDIA
+          <Button types="normal" onClick={handleUpdateMedia}>
+            UPDATE
           </Button>
         </form>
+        <Button types="delete" onClick={handleRemoveMedia}>
+          DELETE MEDIA
+        </Button>
       </div>
+      <div id="mm"></div>
+      {/* <img src={String(cover64)} alt="" />
+       */}
     </div>
   )
 }

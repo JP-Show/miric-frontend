@@ -6,16 +6,19 @@ import { ButtonIcon } from '../../components/ButtonIcon'
 import { Card } from '../../components/Card'
 import { Text } from '../../components/Text'
 
-import { MediaController } from '../../hooks/MediaController'
+import { MediaController, IMedia } from '../../hooks/MediaController'
+
 import { MagnifyingGlass, Gear } from 'phosphor-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export function Home() {
+  const navigate = useNavigate()
+
   const [currentPage, setCurrentPage] = useState(10)
 
-  const obj = new MediaController().show()
+  const medias = new MediaController().show()
 
-  console.log(obj)
+  console.log(medias)
 
   const tagObject = [
     {
@@ -64,128 +67,10 @@ export function Home() {
       name: 'Terror'
     }
   ]
-  const mediaObject = [
-    {
-      id: 2,
 
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    },
-    {
-      id: 2,
-
-      name: 'ClownPiece'
-    }
-  ]
+  function handleMediaInfo(idTitle: string) {
+    navigate(`mediainfo/${idTitle}`)
+  }
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
@@ -249,7 +134,7 @@ export function Home() {
           >
             <ul className="flex flex-wrap lg:flex-col gap-2 w-full justify-center lg:items-center lg:gap-6">
               {tagObject.map(categ => (
-                <li>
+                <li key={categ.id}>
                   <ButtonString.root className="font-bold lg:text-md">
                     {categ.name}
                   </ButtonString.root>
@@ -277,15 +162,20 @@ export function Home() {
             lg:gap-5
             lg:h-auto"
             >
-              {mediaObject.slice(0, currentPage).map(media => (
-                <li>
-                  <Card
-                    key={media.id}
-                    idCard={media.id}
-                    title={media.name}
-                  ></Card>
-                </li>
-              ))}
+              {medias
+                ? medias.slice(0, currentPage).map((media: IMedia) => (
+                    <li
+                      key={String(media.createAt)}
+                      onClick={() => handleMediaInfo(media.title!)}
+                    >
+                      <Card
+                        key={String(media.createAt)}
+                        img={media.cover}
+                        title={media.title}
+                      ></Card>
+                    </li>
+                  ))
+                : ''}
               <li className="h-1 w-1" id="sentinel"></li>
             </ul>
           </section>
