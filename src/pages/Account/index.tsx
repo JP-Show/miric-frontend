@@ -47,32 +47,38 @@ export function Account() {
   }
 
   async function handleCompressCover() {
-    const HEIGHT = 256
-    const newImage = new Image()
-    newImage.src = String(sourceImg)
-    const FinalImg: string = await new Promise(resolve => {
-      newImage.onload = event => {
-        const canvas: HTMLCanvasElement = document.createElement('canvas')
-        const ratio = HEIGHT / (event.target as HTMLImageElement).height
-        canvas.height = HEIGHT
-        canvas.width = (event.target as HTMLImageElement).width * ratio
+    try {
+      const HEIGHT = 256
+      const newImage = new Image()
+      newImage.src = String(sourceImg)
+      const FinalImg: string = await new Promise(resolve => {
+        newImage.onload = event => {
+          const canvas: HTMLCanvasElement = document.createElement('canvas')
+          const ratio = HEIGHT / (event.target as HTMLImageElement).height
+          canvas.height = HEIGHT
+          canvas.width = (event.target as HTMLImageElement).width * ratio
 
-        const context: CanvasRenderingContext2D = canvas.getContext('2d')!
-        context?.drawImage(newImage, 0, 0, canvas.width, canvas.height)
+          const context: CanvasRenderingContext2D = canvas.getContext('2d')!
+          context?.drawImage(newImage, 0, 0, canvas.width, canvas.height)
 
-        const newImageURL = context.canvas.toDataURL(
-          'image/jpeg' || 'image/jpg' || 'image/png',
-          90
-        )
+          const newImageURL = context.canvas.toDataURL(
+            'image/jpeg' || 'image/jpg' || 'image/png',
+            90
+          )
 
-        resolve(newImageURL)
-      }
-    })
-    return FinalImg
+          resolve(newImageURL)
+        }
+      })
+      return FinalImg
+    } catch (error) {
+      alert(error)
+    }
   }
 
-  function handleUpdate() {
+  async function handleUpdate() {
+    const avatar: string = sourceImg ? (await handleCompressCover()) ?? '' : ''
     try {
+      console.log('hello')
       if (password !== user!.password) {
         throw alert('current password not same')
       }
@@ -83,8 +89,10 @@ export function Account() {
         firstName,
         lastName,
         email: user!.email,
-        password: newAgainPassword
+        password: newAgainPassword,
+        avatar: avatar
       }
+      console.log(updateUser)
       new UserController().update(updateUser)
     } catch (error) {}
   }

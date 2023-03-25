@@ -10,8 +10,13 @@ import { MediaController, IMedia } from '../../hooks/MediaController'
 
 import { MagnifyingGlass, Gear } from 'phosphor-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../hooks/auth'
+import noneCover from '../../img/noneCover.png'
 
 export function Home() {
+  const { user } = useAuth()
+  console.log(user?.avatar)
+
   const navigate = useNavigate()
 
   const [currentPage, setCurrentPage] = useState(10)
@@ -93,7 +98,7 @@ export function Home() {
                 <Link className="flex items-center gap-4" to="/account">
                   <img
                     className="h-28 w-28 rounded-full object-cover"
-                    src="https://cdn.discordapp.com/attachments/1020756939296227362/1080522438313513091/Screenshot_49.png"
+                    src={user?.avatar ? user?.avatar : noneCover}
                     alt=""
                   />
                   <Text className="lg:text-lg">André Luiz</Text>

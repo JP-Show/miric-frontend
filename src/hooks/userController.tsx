@@ -3,6 +3,7 @@ export type usuario = {
   lastName: string
   email: string
   password: string
+  avatar?: string
 }
 
 interface IUserProps {
@@ -48,16 +49,18 @@ export class UserController implements IUserProps {
       console.error(err)
     }
   }
-  update({ firstName, lastName, email, password }: usuario) {
+  update({ firstName, lastName, email, password, avatar }: usuario) {
     try {
       const obj: usuario = JSON.parse(localStorage.getItem(`@miric:${email}`)!)
       const objUpdate = {
         firstName: firstName ? firstName : obj.firstName,
         lastName: lastName ? lastName : obj.lastName,
         email,
-        password: password ? password : obj.password
+        password: password ? password : obj.password,
+        avatar: avatar
       }
       localStorage.setItem(`@miric:${email}`, JSON.stringify(objUpdate))
+      localStorage.setItem(`@logged`, JSON.stringify(objUpdate))
       console.log(objUpdate)
     } catch (err) {
       console.error(err)
