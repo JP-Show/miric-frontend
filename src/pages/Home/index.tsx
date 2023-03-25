@@ -22,23 +22,14 @@ export function Home() {
 
   const medias = new MediaController().show()
 
-  console.log(medias)
-
   function handleMediaInfo(idTitle: string) {
     navigate(`mediainfo/${idTitle}`)
   }
-
-  medias.map((media: IMedia) => {
-    media.categ?.map(tag => {
-      console.log(tag)
-    })
-  })
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if (entries.some(entries => entries.isIntersecting))
         setCurrentPage(inside => inside + 8)
-      console.log('está visivel ' + currentPage)
     })
     intersectionObserver.observe(document.getElementById('sentinel')!)
 
@@ -94,18 +85,20 @@ export function Home() {
             id="tags"
             className="ml-8 mr-8 flex flex-col items-center justify-between lg:mr-0 lg:ml-0 lg:max-h-screen lg:grid lg:grid-rows-[80%_20%] lg:grid-cols-1 lg:h-full lg:w-full grid-nowrap lg:items-start overflow-y-auto"
           >
-            {/* flex flex-wrap w-full gap-2 lg:flex-nowrap lg:gap-6 lg:flex-col justify-center lg:overflow-auto lg:items-center */}
             <ul className=" w-full gap-2 grid grid-rows-3 grid-flow-col lg:flex lg:flex-col  lg:overflow-y-auto lg:gap-6 lg:max-h-[100%] lg:items-center">
-              {medias.map((media: IMedia) =>
-                media.categ?.map(categ => (
-                  <ButtonString.root
-                    asChild={true}
-                    className=" mx-auto my-auto w-min lg:w-auto justify-center lg:break-all font-bold lg:text-md "
-                  >
-                    <li key={categ}>{categ}</li>
-                  </ButtonString.root>
-                ))
-              )}
+              {medias
+                ? medias.map((media: IMedia) =>
+                    media.categ?.map(categ => (
+                      <ButtonString.root
+                        key={String(categ.create_at)}
+                        asChild={true}
+                        className=" mx-auto my-auto w-min lg:w-auto justify-center lg:break-all font-bold lg:text-md "
+                      >
+                        <li key={String(categ.create_at)}>{categ.name}</li>
+                      </ButtonString.root>
+                    ))
+                  )
+                : ''}
             </ul>
 
             <Button

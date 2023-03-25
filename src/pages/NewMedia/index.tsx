@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { MediaController } from '../../hooks/MediaController'
+import { ICateg, IMedia, MediaController } from '../../hooks/MediaController'
 
 import { Card } from '../../components/Card'
 import { ButtonIcon } from '../../components/ButtonIcon'
@@ -16,8 +16,11 @@ import { Camera, Plus, ArrowLeft, CaretDown } from 'phosphor-react'
 export function NewMedia() {
   const navigate = useNavigate()
 
-  const [tag, useTag] = useState('')
-  const [categ, useCateg] = useState<string[]>([])
+  const [tag, useTag] = useState<ICateg>({
+    create_at: new Date(),
+    name: ''
+  })
+  const [categ, useCateg] = useState<Array<ICateg>>([])
 
   const [title, setTitle] = useState<string>()
   const [desc, setDesc] = useState<string>()
@@ -79,6 +82,8 @@ export function NewMedia() {
       ? await handleCompressCover()
       : 'https://cdn.discordapp.com/attachments/1020756939296227362/1088883294239719534/noneCover.png'
 
+    console.log(categ)
+
     new MediaController().create({ title, desc, status, categ, cover })
     navigate('/')
   }
@@ -92,9 +97,8 @@ export function NewMedia() {
 
   function handleRemoveTag(deleted: string) {
     const pim = useCateg(prevState =>
-      prevState.filter(item => item !== deleted)
+      prevState!.filter(item => item.name !== deleted)
     )
-    console.log(pim)
   }
 
   useEffect(() => {}, [])
@@ -170,7 +174,12 @@ export function NewMedia() {
 
             <TextInput.root>
               <TextInput.input
-                onChange={e => useTag(e.target.value)}
+                onChange={e =>
+                  useTag({
+                    create_at: new Date(),
+                    name: e.target.value
+                  })
+                }
                 placeholder="Tags"
                 id="tags"
                 type="text"
@@ -189,7 +198,9 @@ export function NewMedia() {
                 ''
               ) : (
                 <ButtonString.root key={key} asChild={true}>
-                  <span onClick={() => handleRemoveTag(item)}>{item}</span>
+                  <span onClick={() => handleRemoveTag(String(item.name))}>
+                    {item.name}
+                  </span>
                 </ButtonString.root>
               )
             )}

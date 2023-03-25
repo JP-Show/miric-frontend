@@ -5,11 +5,16 @@ enum Categ {
   drop = 'drop'
 }
 
+export interface ICateg {
+  create_at?: Date | undefined
+  name: string | undefined
+}
+
 export interface IMedia {
   title: string | undefined
   desc: string | undefined
   status: string | undefined
-  categ: string[] | undefined
+  categ: Array<ICateg>
   cover: string | undefined
   createAt?: Date | undefined
 }
@@ -33,7 +38,6 @@ export class MediaController implements IMediaController {
       const medias: Array<IMedia> = JSON.parse(localStorage.getItem('@Media')!)
 
       if (medias) {
-        console.log(medias)
         let ifExist: boolean = false
         medias.map(item => {
           if (item.title == newMedia.title) {
@@ -52,7 +56,6 @@ export class MediaController implements IMediaController {
         localStorage.setItem(`@Media`, JSON.stringify(medias))
         return
       } else {
-        console.log('novo')
         localStorage.setItem(`@Media`, JSON.stringify([newMedia]))
         return
       }
@@ -72,13 +75,13 @@ export class MediaController implements IMediaController {
         desc: credentials.desc,
         status: credentials.status,
         categ: credentials.categ,
+
         cover: credentials.cover
       }
 
       const medias: Array<IMedia> = JSON.parse(localStorage.getItem('@Media')!)
 
       if (medias) {
-        console.log(medias)
         let ifExist: boolean = false
         medias.map(item => {
           if (item.title == newMedia.title) {
@@ -93,7 +96,6 @@ export class MediaController implements IMediaController {
         localStorage.setItem(`@Media`, JSON.stringify(medias))
         return
       } else {
-        console.log('novo')
         localStorage.setItem(`@Media`, JSON.stringify([newMedia]))
         return
       }
@@ -103,10 +105,9 @@ export class MediaController implements IMediaController {
   }
   delete(title: string) {
     const medias: Array<IMedia> = JSON.parse(localStorage.getItem('@Media')!)
-    console.log(medias)
-    console.log(title)
+
     const newMedias = medias.filter(media => media.title !== title)
-    console.log(newMedias)
+
     localStorage.setItem('@Media', JSON.stringify(newMedias))
   }
 }

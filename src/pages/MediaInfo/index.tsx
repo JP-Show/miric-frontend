@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { MediaController, IMedia } from '../../hooks/MediaController'
+import { MediaController, IMedia, ICateg } from '../../hooks/MediaController'
 
 import { Card } from '../../components/Card'
 import { ButtonIcon } from '../../components/ButtonIcon'
@@ -21,8 +21,11 @@ export function MediaInfo() {
   const mediaArray = obj.filter(media => media.title == params.id)
   const media: IMedia = mediaArray[0]
 
-  const [tag, useTag] = useState('')
-  const [categ, useCateg] = useState<string[]>([])
+  const [tag, useTag] = useState<ICateg>({
+    create_at: new Date(),
+    name: ''
+  })
+  const [categ, useCateg] = useState<Array<ICateg>>([])
 
   const [desc, setDesc] = useState<string>(media.desc!)
   const [status, setStatus] = useState<string>(media.status!)
@@ -88,6 +91,7 @@ export function MediaInfo() {
       categ,
       cover
     })
+    navigate('/')
   }
 
   function handleBack() {
@@ -99,9 +103,8 @@ export function MediaInfo() {
 
   function handleRemoveTag(deleted: string) {
     const pim = useCateg(prevState =>
-      prevState.filter(item => item !== deleted)
+      prevState.filter(item => item.name !== deleted)
     )
-    console.log(pim)
   }
 
   function handleRemoveMedia() {
@@ -192,7 +195,12 @@ export function MediaInfo() {
 
             <TextInput.root>
               <TextInput.input
-                onChange={e => useTag(e.target.value)}
+                onChange={e =>
+                  useTag({
+                    create_at: new Date(),
+                    name: e.target.value
+                  })
+                }
                 placeholder="Tags"
                 id="tags"
                 type="text"
@@ -211,16 +219,18 @@ export function MediaInfo() {
                 ''
               ) : (
                 <ButtonString.root key={key} asChild={true}>
-                  <span onClick={() => handleRemoveTag(item)}>{item}</span>
+                  <span onClick={() => handleRemoveTag(String(item.name))}>
+                    {item.name}
+                  </span>
                 </ButtonString.root>
               )
             )}
           </div>
-          <Button types="normal" onClick={handleUpdateMedia}>
+          <Button type="button" types="normal" onClick={handleUpdateMedia}>
             UPDATE
           </Button>
         </form>
-        <Button types="delete" onClick={handleRemoveMedia}>
+        <Button type="button" types="delete" onClick={handleRemoveMedia}>
           DELETE MEDIA
         </Button>
       </div>
