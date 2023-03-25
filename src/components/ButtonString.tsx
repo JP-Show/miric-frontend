@@ -34,7 +34,7 @@ function ButtonStringRoot({
     <Comp
       onClick={handleColor}
       className={clsx(
-        `${textColor} flex items-center h-9 outline-none leading-5 font-sans font-bold text-center tracking-widest ${bgColor} py-2 px-3 focus:ring-2 ring-white rounded-lg`,
+        `${textColor} flex items-center h-auto outline-none leading-5 font-sans font-bold text-center tracking-widest ${bgColor} py-2 px-3 focus:ring-2 ring-white rounded-lg`,
         {
           'text-xm': size == 'sm',
           'text-sm': size == 'md',

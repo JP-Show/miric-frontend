@@ -15,7 +15,6 @@ import noneCover from '../../img/noneCover.png'
 
 export function Home() {
   const { user } = useAuth()
-  console.log(user?.avatar)
 
   const navigate = useNavigate()
 
@@ -25,57 +24,15 @@ export function Home() {
 
   console.log(medias)
 
-  const tagObject = [
-    {
-      id: 1,
-      anime_id: 1,
-      name: 'Drama'
-    },
-    {
-      id: 2,
-      anime_id: 1,
-      name: 'Suspense'
-    },
-    {
-      id: 3,
-      anime_id: 1,
-      name: 'TVShow'
-    },
-    {
-      id: 4,
-      anime_id: 1,
-      name: 'War'
-    },
-    {
-      id: 5,
-      anime_id: 1,
-      name: 'Anime'
-    },
-    {
-      id: 6,
-      anime_id: 1,
-      name: 'Terror'
-    },
-    {
-      id: 7,
-      anime_id: 1,
-      name: 'Terror'
-    },
-    {
-      id: 8,
-      anime_id: 1,
-      name: 'Terror'
-    },
-    {
-      id: 9,
-      anime_id: 1,
-      name: 'Terror'
-    }
-  ]
-
   function handleMediaInfo(idTitle: string) {
     navigate(`mediainfo/${idTitle}`)
   }
+
+  medias.map((media: IMedia) => {
+    media.categ?.map(tag => {
+      console.log(tag)
+    })
+  })
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
@@ -90,10 +47,10 @@ export function Home() {
 
   return (
     <div className="h-screen w-full absolute">
-      <div className="lg:h-full lg:grid lg:grid-rows-[15%_85%]">
+      <div className="lg:h-screen lg:grid lg:grid-rows-[20%_80%]">
         <header>
           <nav>
-            <ul className="flex gap-3 ml-8 mt-8 items-center lg:justify-between">
+            <ul className="flex gap-3 ml-8 mr-8 mt-8 mb-8 items-center lg:justify-between">
               <li className="hidden lg:block">
                 <Link className="flex items-center gap-4" to="/account">
                   <img
@@ -132,24 +89,28 @@ export function Home() {
             </ul>
           </nav>
         </header>
-        <div className="lg:grid lg:grid-cols-[20%_auto]">
+        <div className="lg:h-full lg:grid lg:grid-cols-[20%_auto]">
           <nav
             id="tags"
-            className="flex flex-col items-center justify-between lg:items-start mt-8"
+            className="ml-8 mr-8 flex flex-col items-center justify-between lg:mr-0 lg:ml-0 lg:max-h-screen lg:grid lg:grid-rows-[80%_20%] lg:grid-cols-1 lg:h-full lg:w-full grid-nowrap lg:items-start overflow-y-auto"
           >
-            <ul className="flex flex-wrap lg:flex-col gap-2 w-full justify-center lg:items-center lg:gap-6">
-              {tagObject.map(categ => (
-                <li key={categ.id}>
-                  <ButtonString.root className="font-bold lg:text-md">
-                    {categ.name}
+            {/* flex flex-wrap w-full gap-2 lg:flex-nowrap lg:gap-6 lg:flex-col justify-center lg:overflow-auto lg:items-center */}
+            <ul className=" w-full gap-2 grid grid-rows-3 grid-flow-col lg:flex lg:flex-col  lg:overflow-y-auto lg:gap-6 lg:max-h-[100%] lg:items-center">
+              {medias.map((media: IMedia) =>
+                media.categ?.map(categ => (
+                  <ButtonString.root
+                    asChild={true}
+                    className=" mx-auto my-auto w-min lg:w-auto justify-center lg:break-all font-bold lg:text-md "
+                  >
+                    <li key={categ}>{categ}</li>
                   </ButtonString.root>
-                </li>
-              ))}
+                ))
+              )}
             </ul>
 
             <Button
               asChild={true}
-              className="hidden lg:flex w-full h-1/5 justify-center items-center"
+              className="hidden lg:flex lg:w-full lg:h-full justify-center items-center "
               types="normal"
             >
               <Link to="/newmedia">NEW MEDIA</Link>
@@ -158,7 +119,7 @@ export function Home() {
 
           <section className="mt-5 mx-6 mb-8 flex lg:overflow-auto">
             <ul
-              className="flex gap-3 justify-center flex-wrap 
+              className="flex gap-3 justify-center flex-wrap overflow-auto
             lg:nowrap 
             lg:grid 
             lg:grid-rows-2 
