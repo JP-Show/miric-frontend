@@ -25,6 +25,19 @@ export function Home() {
 
   const medias: Array<IMedia> = new MediaController().show()
 
+  const tags = medias
+    ? medias.map((media: IMedia) => {
+        return media.categ.map((tag: ICateg) => {
+          return {
+            name: tag.name,
+            create_at: tag.create_at
+          }
+        })
+      })
+    : []
+
+  const tagsOneArray = tags.flatMap(item => item)
+
   function HandleAddSelectTags(nameTag: string) {
     const alreadySelected = selectTags.includes(nameTag)
     if (alreadySelected) {
@@ -36,48 +49,40 @@ export function Home() {
     }
   }
 
-  const tags = medias?.map((media: IMedia) => {
-    return media.categ.map((tag: ICateg) => {
-      return {
-        name: tag.name,
-        create_at: tag.create_at
-      }
-    })
-  })
-  const tagsOneArray = tags[0].concat(tags[1])
-
   function handleMediaInfo(idTitle: string) {
     navigate(`mediainfo/${idTitle}`)
   }
 
-  // useEffect(() => {
-  //   const intersectionObserver = new IntersectionObserver(entries => {
-  //     if (entries.some(entries => entries.isIntersecting))
-  //       setCurrentPage(inside => inside + 8)
-  //   })
-  //   intersectionObserver.observe(document.getElementById('sentinel')!)
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver(entries => {
+      if (entries.some(entries => entries.isIntersecting))
+        setCurrentPage(inside => inside + 8)
+    })
+    intersectionObserver.observe(document.getElementById('sentinel')!)
 
-  //   return () => intersectionObserver.disconnect()
-  // }, [])
+    return () => intersectionObserver.disconnect()
+  }, [])
 
   useEffect(() => {
-    if (selectTags.length === 0) {
-      setFilteredCards(medias)
+    if (medias) {
+      if (selectTags.length === 0) {
+        setFilteredCards(medias)
+      }
+
+      let filtered = medias.filter((media: IMedia) => {
+        return selectTags.every(tag =>
+          media.categ.map(tags => tags.name).includes(String(tag))
+        )
+      })
+
+      const regex = new RegExp(search, 'i')
+
+      filtered = filtered.filter((media: IMedia) => {
+        return regex.test(media.title!)
+      })
+
+      setFilteredCards(filtered)
     }
-
-    let filtered = medias.filter((media: IMedia) => {
-      return selectTags.every(tag =>
-        media.categ.map(tags => tags.name).includes(String(tag))
-      )
-    })
-
-    const regex = new RegExp(search, 'i')
-
-    filtered = filtered.filter((media: IMedia) => {
-      return regex.test(media.title!)
-    })
-
-    setFilteredCards(filtered)
   }, [selectTags, search])
 
   return (
@@ -93,7 +98,7 @@ export function Home() {
                     src={user?.avatar ? user?.avatar : noneCover}
                     alt=""
                   />
-                  <Text className="lg:text-lg">André Luiz</Text>
+                  <Text className="lg:text-lg">{`${user?.firstName} ${user?.lastName}`}</Text>
                 </Link>
               </li>
 
@@ -131,13 +136,10 @@ export function Home() {
           >
             <ul className=" w-full gap-2 grid grid-rows-3 grid-flow-col lg:flex lg:flex-col  lg:overflow-y-auto lg:gap-6 lg:max-h-[100%] lg:items-center">
               {medias &&
-                // tags.filter((tag, index, self) => {
-                //   // console.log(self.indexOf(tag), index)
-                //   return self.indexOf(tag) === index
-
                 tagsOneArray
                   ?.filter((tag, index, self) => {
                     // console.log(self.map(e => e.name).indexOf(tag.name), index)
+
                     return self.map(e => e.name).indexOf(tag.name) === index
                   })
                   .map(categ => (

@@ -109,6 +109,7 @@ export function Account() {
     )
     if (confirm) {
       localStorage.clear()
+      navigate('/')
       document.location.reload()
     }
   }
