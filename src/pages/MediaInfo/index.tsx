@@ -91,6 +91,7 @@ export function MediaInfo() {
       categ,
       cover
     })
+    alert('successfully updated')
     navigate('/')
   }
 
@@ -229,10 +230,15 @@ export function MediaInfo() {
           <Button type="button" types="normal" onClick={handleUpdateMedia}>
             UPDATE
           </Button>
+          <Button
+            className="mt-6"
+            type="button"
+            types="delete"
+            onClick={handleRemoveMedia}
+          >
+            DELETE MEDIA
+          </Button>
         </form>
-        <Button type="button" types="delete" onClick={handleRemoveMedia}>
-          DELETE MEDIA
-        </Button>
       </div>
       <div id="mm"></div>
       {/* <img src={String(cover64)} alt="" />

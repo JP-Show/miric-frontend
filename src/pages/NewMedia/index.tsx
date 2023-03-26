@@ -85,6 +85,7 @@ export function NewMedia() {
     console.log(categ)
 
     new MediaController().create({ title, desc, status, categ, cover })
+    alert('successfully added')
     navigate('/')
   }
 

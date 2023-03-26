@@ -94,6 +94,8 @@ export function Account() {
       }
       console.log(updateUser)
       new UserController().update(updateUser)
+      alert('successfully updated')
+      navigate('/')
     } catch (error) {}
   }
 
@@ -101,7 +103,18 @@ export function Account() {
     navigate(-1)
   }
 
+  function handleDeleteAccount() {
+    const confirm = window.confirm(
+      "You sure about that? if you delete your account, all medias it'll deleted"
+    )
+    if (confirm) {
+      localStorage.clear()
+      document.location.reload()
+    }
+  }
+
   useEffect(() => {
+    setSourceImg(user?.avatar)
     ;(document.getElementById('firstName') as HTMLInputElement).value =
       user!.firstName
     ;(document.getElementById('lastName') as HTMLInputElement).value =
@@ -248,7 +261,12 @@ export function Account() {
           >
             UPDATE
           </Button>
-          <Button className="mt-12 mb-12" type="button" types="delete">
+          <Button
+            onClick={handleDeleteAccount}
+            className="mt-12 mb-12"
+            type="button"
+            types="delete"
+          >
             DELETE
           </Button>
         </form>

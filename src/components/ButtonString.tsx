@@ -40,7 +40,7 @@ function ButtonStringRoot({
           isActive ? 'text-gray-900' : 'text-gray-200'
         } flex items-center h-auto outline-none leading-5 font-sans font-bold text-center tracking-widest ${
           isActive ? 'bg-gold-500' : 'bg-gray-600'
-        } py-2 px-3 focus:ring-2 ring-white rounded-lg`,
+        } py-2 px-3 focus:ring-2 ring-white rounded-lg cursor-pointer`,
         {
           'text-xm': size == 'sm',
           'text-sm': size == 'md',

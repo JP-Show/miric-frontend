@@ -21,6 +21,7 @@ export function Home() {
   const [currentPage, setCurrentPage] = useState(10)
   const [selectTags, setSelectTags] = useState<String[]>([])
   const [filteredCards, setFilteredCards] = useState<Array<IMedia>>()
+  const [search, setSearch] = useState<string>('')
 
   const medias: Array<IMedia> = new MediaController().show()
 
@@ -33,10 +34,6 @@ export function Home() {
       setSelectTags(prevState => [...prevState, nameTag])
       console.log(selectTags)
     }
-
-    // if (selectTags.includes(nameTag)) {
-    //   return
-    // }
   }
 
   const tags = medias?.map((media: IMedia) => {
@@ -66,17 +63,22 @@ export function Home() {
   useEffect(() => {
     if (selectTags.length === 0) {
       setFilteredCards(medias)
-      return
     }
 
-    const filtered = medias.filter((media: IMedia) => {
+    let filtered = medias.filter((media: IMedia) => {
       return selectTags.every(tag =>
         media.categ.map(tags => tags.name).includes(String(tag))
       )
     })
 
+    const regex = new RegExp(search, 'i')
+
+    filtered = filtered.filter((media: IMedia) => {
+      return regex.test(media.title!)
+    })
+
     setFilteredCards(filtered)
-  }, [selectTags])
+  }, [selectTags, search])
 
   return (
     <div className="h-screen w-full absolute">
@@ -100,7 +102,7 @@ export function Home() {
                   <ButtonIcon.icon className="lg:hidden">
                     <MagnifyingGlass />
                   </ButtonIcon.icon>
-                  <ButtonIcon.input />
+                  <ButtonIcon.input onChange={e => setSearch(e.target.value)} />
                 </ButtonIcon.root>
               </li>
 
