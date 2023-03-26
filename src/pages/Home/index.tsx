@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { Button } from '../../components/Button'
 import { ButtonString } from '../../components/ButtonString'
@@ -6,7 +6,7 @@ import { ButtonIcon } from '../../components/ButtonIcon'
 import { Card } from '../../components/Card'
 import { Text } from '../../components/Text'
 
-import { MediaController, IMedia } from '../../hooks/MediaController'
+import { MediaController, IMedia, ICateg } from '../../hooks/MediaController'
 
 import { MagnifyingGlass, Gear } from 'phosphor-react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -19,22 +19,64 @@ export function Home() {
   const navigate = useNavigate()
 
   const [currentPage, setCurrentPage] = useState(10)
+  const [selectTags, setSelectTags] = useState<String[]>([])
+  const [filteredCards, setFilteredCards] = useState<Array<IMedia>>()
 
-  const medias = new MediaController().show()
+  const medias: Array<IMedia> = new MediaController().show()
+
+  function HandleAddSelectTags(nameTag: string) {
+    const alreadySelected = selectTags.includes(nameTag)
+    if (alreadySelected) {
+      const filteredTags = selectTags.filter(tag => tag !== nameTag)
+      setSelectTags(filteredTags)
+    } else {
+      setSelectTags(prevState => [...prevState, nameTag])
+      console.log(selectTags)
+    }
+
+    // if (selectTags.includes(nameTag)) {
+    //   return
+    // }
+  }
+
+  const tags = medias?.map((media: IMedia) => {
+    return media.categ.map((tag: ICateg) => {
+      return {
+        name: tag.name,
+        create_at: tag.create_at
+      }
+    })
+  })
+  const tagsOneArray = tags[0].concat(tags[1])
 
   function handleMediaInfo(idTitle: string) {
     navigate(`mediainfo/${idTitle}`)
   }
 
-  useEffect(() => {
-    const intersectionObserver = new IntersectionObserver(entries => {
-      if (entries.some(entries => entries.isIntersecting))
-        setCurrentPage(inside => inside + 8)
-    })
-    intersectionObserver.observe(document.getElementById('sentinel')!)
+  // useEffect(() => {
+  //   const intersectionObserver = new IntersectionObserver(entries => {
+  //     if (entries.some(entries => entries.isIntersecting))
+  //       setCurrentPage(inside => inside + 8)
+  //   })
+  //   intersectionObserver.observe(document.getElementById('sentinel')!)
 
-    return () => intersectionObserver.disconnect()
-  }, [])
+  //   return () => intersectionObserver.disconnect()
+  // }, [])
+
+  useEffect(() => {
+    if (selectTags.length === 0) {
+      setFilteredCards(medias)
+      return
+    }
+
+    const filtered = medias.filter((media: IMedia) => {
+      return selectTags.every(tag =>
+        media.categ.map(tags => tags.name).includes(String(tag))
+      )
+    })
+
+    setFilteredCards(filtered)
+  }, [selectTags])
 
   return (
     <div className="h-screen w-full absolute">
@@ -86,19 +128,28 @@ export function Home() {
             className="ml-8 mr-8 flex flex-col items-center justify-between lg:mr-0 lg:ml-0 lg:max-h-screen lg:grid lg:grid-rows-[80%_20%] lg:grid-cols-1 lg:h-full lg:w-full grid-nowrap lg:items-start overflow-y-auto"
           >
             <ul className=" w-full gap-2 grid grid-rows-3 grid-flow-col lg:flex lg:flex-col  lg:overflow-y-auto lg:gap-6 lg:max-h-[100%] lg:items-center">
-              {medias
-                ? medias.map((media: IMedia) =>
-                    media.categ?.map(categ => (
-                      <ButtonString.root
-                        key={String(categ.create_at)}
-                        asChild={true}
-                        className=" mx-auto my-auto w-min lg:w-auto justify-center lg:break-all font-bold lg:text-md "
-                      >
-                        <li key={String(categ.create_at)}>{categ.name}</li>
-                      </ButtonString.root>
-                    ))
-                  )
-                : ''}
+              {medias &&
+                // tags.filter((tag, index, self) => {
+                //   // console.log(self.indexOf(tag), index)
+                //   return self.indexOf(tag) === index
+
+                tagsOneArray
+                  ?.filter((tag, index, self) => {
+                    // console.log(self.map(e => e.name).indexOf(tag.name), index)
+                    return self.map(e => e.name).indexOf(tag.name) === index
+                  })
+                  .map(categ => (
+                    <ButtonString.root
+                      isActive={selectTags.includes(categ.name!)}
+                      key={String(categ.create_at)}
+                      asChild={true}
+                      className=" mx-auto my-auto w-min lg:w-auto justify-center lg:break-all font-bold lg:text-md "
+                    >
+                      <li onClick={() => HandleAddSelectTags(categ.name!)}>
+                        {categ.name}
+                      </li>
+                    </ButtonString.root>
+                  ))}
             </ul>
 
             <Button
@@ -121,8 +172,8 @@ export function Home() {
             lg:gap-5
             lg:h-auto"
             >
-              {medias
-                ? medias.slice(0, currentPage).map((media: IMedia) => (
+              {filteredCards
+                ? filteredCards.slice(0, currentPage).map((media: IMedia) => (
                     <li
                       key={String(media.createAt)}
                       onClick={() => handleMediaInfo(media.title!)}
