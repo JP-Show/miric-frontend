@@ -42,8 +42,8 @@ function AuthProvider({ children }: IAuthProviderProps) {
       credentials.email,
       credentials.password
     )
-    setData(user)
     localStorage.setItem(`@logged`, JSON.stringify(user ?? ''))
+    setData(user)
   }
 
   useEffect(() => {

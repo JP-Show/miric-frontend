@@ -99,7 +99,7 @@ export function SignUp() {
               </TextInput.icon>
               <TextInput.input
                 id="email"
-                placeholder="notAndre@gmail.com"
+                placeholder="example@gmail.com"
                 sizeText="sm"
                 type="email"
                 onChange={e => setEmail(e.target.value)}
@@ -155,7 +155,7 @@ export function SignUp() {
             to="/"
             className=" cursor-pointer text-gold-500 hover:text-gold-200"
           >
-            Sing in here!
+            Sign in here!
           </Link>
         </Text>
       </footer>

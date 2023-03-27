@@ -19,9 +19,13 @@ export function SignIn() {
     try {
       signIn({ email, password })
     } catch (err) {
-      alert(err)
+      console.log(err)
     }
   }
+
+  alert(
+    'Bem-vindo ao meu Miric, esse site é um projetinho para adicionar ao meu portifolio. Acesse github.com/JP-Show/miric-frontend para mais informações :)'
+  )
 
   return (
     <div className="h-max w-screen bg-gray-900 flex flex-col justify-center items-center">
@@ -51,7 +55,7 @@ export function SignIn() {
             </TextInput.icon>
             <TextInput.input
               id="email"
-              placeholder="notAndre@gmail.com"
+              placeholder="example@gmail.com"
               sizeText="sm"
               type="email"
               onChange={e => setEmail(e.target.value)}
@@ -93,19 +97,19 @@ export function SignIn() {
         SIGN IN
       </Button>
       <footer className="text-left flex flex-col gap-4 mb-28 mt-16">
-        <Text className="text-gray-400 lg:text-sm" size="sm">
+        {/* <Text className="text-gray-400 lg:text-sm" size="sm">
           Did forget your password?{' '}
           <a className=" cursor-pointer text-gold-500 hover:text-gold-200 ">
             Click here!
           </a>
-        </Text>
+        </Text> */}
         <Text className="text-gray-400 lg:text-sm" size="sm">
           Don't you have account?{' '}
           <Link
             to="/signup"
             className="text-gold-500 cursor-pointer hover:text-gold-200"
           >
-            Sing up here!
+            Sign up here!
           </Link>
         </Text>
       </footer>

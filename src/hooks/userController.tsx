@@ -31,22 +31,23 @@ export class UserController implements IUserProps {
   }
   login(email: string, password: string) {
     try {
-      const user: usuario = JSON.parse(localStorage.getItem(`@miric:${email}`)!)
-      console.log(user.email)
-      console.log(email)
+      const user: usuario =
+        JSON.parse(localStorage.getItem(`@miric:${email}`)!) ?? ''
+
       if (!email || !password) {
-        throw 'email or password not informed'
+        throw 'email or password not provided'
       }
 
       if (email !== user.email) {
-        throw 'email or password is incorrectly'
+        throw "email or password is incorrectly or doesn't exist"
       }
       if (password !== user.password) {
-        throw 'email or password is incorrectly'
+        throw "email or password is incorrectly or doesn't exist"
       }
+
       return user
     } catch (err) {
-      console.error(err)
+      alert(err)
     }
   }
   update({ firstName, lastName, email, password, avatar }: usuario) {
