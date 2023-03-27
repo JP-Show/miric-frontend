@@ -26,7 +26,7 @@ export function Config() {
           size="sm"
           className="mb-10 text-white hover:text-gold-500"
         >
-          <Link to="/account">
+          <Link to="/about">
             <li>About</li>
           </Link>
         </Heading>

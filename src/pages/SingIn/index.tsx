@@ -23,10 +23,6 @@ export function SignIn() {
     }
   }
 
-  alert(
-    'Bem-vindo ao meu Miric, esse site é um projetinho para adicionar ao meu portifolio. Acesse github.com/JP-Show/miric-frontend para mais informações :)'
-  )
-
   return (
     <div className="h-max w-screen bg-gray-900 flex flex-col justify-center items-center">
       <header className="text-center mb-28 ">

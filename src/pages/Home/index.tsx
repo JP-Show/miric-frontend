@@ -12,9 +12,10 @@ import { MagnifyingGlass, Gear } from 'phosphor-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/auth'
 import noneCover from '../../img/noneCover.png'
+import { Heading } from '../../components/Heading'
 
 export function Home() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
 
   const navigate = useNavigate()
 
@@ -51,6 +52,9 @@ export function Home() {
 
   function handleMediaInfo(idTitle: string) {
     navigate(`mediainfo/${idTitle}`)
+  }
+  function handleLogout() {
+    signOut()
   }
 
   useEffect(() => {
@@ -125,6 +129,24 @@ export function Home() {
                     </ButtonIcon.icon>
                   </Link>
                 </ButtonIcon.root>
+              </li>
+              <li>
+                <Heading
+                  asChild={true}
+                  size="sm"
+                  className="hidden lg:contents mb-10 text-white hover:text-gold-500"
+                >
+                  <Link to="/about">About</Link>
+                </Heading>
+                <Heading
+                  asChild={true}
+                  size="sm"
+                  className="hidden lg:contents mb-10 text-white hover:text-gold-500"
+                >
+                  <Link to="/">
+                    <li onClick={handleLogout}>Logout</li>
+                  </Link>
+                </Heading>
               </li>
             </ul>
           </nav>

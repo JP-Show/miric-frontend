@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { UserController, usuario } from '../../hooks/UserController'
 
@@ -35,8 +35,14 @@ export function SignUp() {
     }
   }
 
+  useEffect(() => {
+    alert(
+      'Bem-vindo ao meu Miric, esse site é um projetinho para adicionar ao meu portifolio. Acesse github.com/JP-Show/miric-frontend para mais informações :)'
+    )
+  }, [])
+
   return (
-    <div className="h-auto w-screen bg-gray-900 flex flex-col justify-center items-center">
+    <div className="h-auto w-screen lg:h-screen bg-gray-900 flex flex-col justify-center items-center">
       <header className="text-center mb-10">
         <Heading
           className="text-gold-500 tracking-tighter mb-3 mt-28 lg:text-2xl lg:mb-1"

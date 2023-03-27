@@ -19,13 +19,18 @@ export class UserController implements IUserProps {
       !user.password ||
       !passwordAgain
     ) {
-      throw 'faltando um campo'
+      throw 'missing a camp'
     }
     if (user.password !== passwordAgain) {
-      throw 'senha não bate'
+      throw "password doesn't match"
+    }
+    const anotherUser = localStorage.getItem(`@miric:${user.email}`)
+
+    if (anotherUser) {
+      throw 'email already registered'
     }
 
-    alert('criado com sucesso')
+    alert('successfully created')
 
     localStorage.setItem(`@miric:${user.email}`, JSON.stringify(user))
   }
